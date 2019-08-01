@@ -29,7 +29,7 @@ vcf_string =  vcf_for_create_GenomicsDB_V_string.map{'-V '+it.getName()+' ' }.to
 process create_GenomicsDB {
 
     tag "all_the_vcfs"
-    publishDir "GenomicsDB_script_Results", mode: 'copy'
+    publishDir "GenomicsDBImport_Results", mode: 'copy'
     container "broadinstitute/gatk:latest"
 
     input:
@@ -42,7 +42,7 @@ process create_GenomicsDB {
     val(vcf_string) from vcf_string
 
     output:
-    file("create_GenomicsDB.sh") into results_channel
+    file("*") into results_channel
 
     shell:
     '''
