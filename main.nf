@@ -32,8 +32,8 @@ process create_GenomicsDB {
     container "broadinstitute/gatk:latest"
 
     input:
-    file("*vcf.gz") from vcf_for_create_GenomicsDB_channel.collect()
-    file("*vcf.gz.tbi") from vcf_tbi_for_create_GenomicsDB_channel.collect()
+    file("*") from vcf_for_create_GenomicsDB_channel.collect()
+    file("*") from vcf_tbi_for_create_GenomicsDB_channel.collect()
     file(ref) from ref_for_create_GenomicsDB_channel
     file(ref_index) from ref_index_for_create_GenomicsDB_channel
     file(ref_dict) from ref_dict_for_create_GenomicsDB_channel
