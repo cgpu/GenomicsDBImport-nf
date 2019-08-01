@@ -22,6 +22,7 @@ Channel
     .fromPath(params.intervals_list)
     .set { intervals_create_GenomicsDB_channel  }
 
+// TODO: don't need but leaving as residue until I make an issue for remembering functionality
 vcf_string =  vcf_for_create_GenomicsDB_V_string.map{'-V '+it.getName()+' ' }.toList().toString()
 
 
@@ -30,6 +31,7 @@ process create_GenomicsDB {
     tag "all_the_vcfs"
     publishDir "GenomicsDB_script_Results", mode: 'copy'
     container "broadinstitute/gatk:latest"
+    echo true
 
     input:
     file("*") from vcf_for_create_GenomicsDB_channel.collect()
@@ -45,8 +47,11 @@ process create_GenomicsDB {
 
     shell:
     '''
-    echo -n "gatk GenomicsDBImport -R !{ref}  --genomicsdb-workspace-path pon_db --java-options '-DGATK_STACKTRACE_ON_USER_EXCEPTION=true' !{vcf_string}" > create_GenomicsDB.sh
-    echo -n "-L !{intervals}" >> create_GenomicsDB.sh
-    cat create_GenomicsDB.sh
+    echo -n "gatk GenomicsDBImport -R !{ref} --genomicsdb-workspace-path pon_db " > create_GenomicsDB.sh
+    for vcf in $(ls *.vcf.gz); do
+    echo -n "-V $vcf " >> create_GenomicsDB.sh
+    done
+    echo -n "-L !{intervals}" --merge-input-intervals >> create_GenomicsDB.sh
+    echo $(cat create_GenomicsDB.sh)
     '''
 }
