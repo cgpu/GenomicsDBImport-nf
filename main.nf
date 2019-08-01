@@ -51,6 +51,8 @@ process create_GenomicsDB {
     echo -n "-V $vcf " >> create_GenomicsDB.sh
     done
     echo -n "-L !{intervals}" --merge-input-intervals --java-options '-DGATK_STACKTRACE_ON_USER_EXCEPTION=true' >> create_GenomicsDB.sh
+    chmod ugo+xr create_GenomicsDB.sh
     bash create_GenomicsDB.sh
+    chmod -R ugo+xrw pon_db
     '''
 }
