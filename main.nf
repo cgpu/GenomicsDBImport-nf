@@ -51,7 +51,7 @@ process create_GenomicsDB {
     for vcf in $(ls *.vcf.gz); do
     echo -n "-V $vcf " >> create_GenomicsDB.sh
     done
-    echo -n "-L !{intervals}" --merge-input-intervals >> create_GenomicsDB.sh
+    echo -n "-L !{intervals}" --merge-input-intervals --java-options '-DGATK_STACKTRACE_ON_USER_EXCEPTION=true' >> create_GenomicsDB.sh
     echo $(cat create_GenomicsDB.sh)
     '''
 }
